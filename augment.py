@@ -26,12 +26,14 @@ def create_datagen():
 
     return train_generator
 
-
 # Reference for the below function:
 # Part 6.2 of https://towardsdatascience.com/transfer-learning-from-pre-trained-models-f2393f124751
+
+
 def extract_features(sample_count):  # sample_count is the no. of training images
     features = np.zeros(shape=(sample_count, 7, 7, 512))  # Must be equal to the output of the convolutional base
     # labels = np.zeros(shape=(sample_count))
+
     generator = create_datagen()
     # Pass data through convolutional base
     i = 0
