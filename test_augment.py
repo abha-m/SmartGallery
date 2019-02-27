@@ -8,7 +8,7 @@ from skimage import util
 from skimage import io
 import os
 
-train_dir = '/home/abha/Celeb_faces_modified'
+train_dir = '/home/harsh/Projects/data/train/ben_afflek'
 
 
 def random_rotation(image_array: ndarray):
@@ -25,7 +25,7 @@ def horizontal_flip(image_array: ndarray):
     return image_array[:, ::-1]
 
 def augment():
-    num_files_desired = 1
+    num_files_desired = 10
 
     available_transformations = {
         'rotate': random_rotation,
@@ -36,7 +36,7 @@ def augment():
     # find all files paths from the folder
     images = [os.path.join(train_dir, f) for f in os.listdir(train_dir) if
               os.path.isfile(os.path.join(train_dir, f))]
-
+    print(images)
     num_generated_files = 0
     transformed_image = None
     while num_generated_files <= num_files_desired:
@@ -53,14 +53,15 @@ def augment():
             # random transformation to apply for a single image
             key = random.choice(list(available_transformations))
             transformed_image = available_transformations[key](image_to_transform)
+            print(num_transformations)
             num_transformations += 1
 
-    new_file_path = '%s/new/augmented_image_%s.jpg' % (train_dir, num_generated_files)
+        new_file_path = '%s/new/augmented_image_%s.jpg' % (train_dir, num_generated_files)
 
-    # write image to the disk
-    io.imsave(new_file_path, transformed_image)
-    num_generated_files += 1
-    print(num_generated_files)
+        # write image to the disk
+        io.imsave(new_file_path, transformed_image)
+        num_generated_files += 1
+        print(num_generated_files)
 
 
 augment()
