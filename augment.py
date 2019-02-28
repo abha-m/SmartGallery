@@ -2,9 +2,12 @@ import keras
 from keras.preprocessing.image import ImageDataGenerator
 from keras.applications.vgg16 import VGG16
 import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
 from sklearn.cluster import DBSCAN
 from keras.layers.core import Flatten
 from keras.models import Sequential
+from sklearn.decomposition import PCA
 
 model_VGG16 = VGG16(include_top=False, weights="imagenet", input_shape=(224,224,3))
 
@@ -51,6 +54,7 @@ def extract_features(sample_count):  # sample_count is the no. of training image
     # Pass data through convolutional base
     i = 0
     for inputs_batch, labels_batch in generator:
+        print(len(inputs_batch[2]))
         features_batch = covnet_transform(model_VGG16, inputs_batch)
         # print(labels_batch)
         features[i * train_batchsize: (i + 1) * train_batchsize] = features_batch
@@ -60,6 +64,34 @@ def extract_features(sample_count):  # sample_count is the no. of training image
             break
     return features
 
-# print(extract_features(92).shape)
-db = DBSCAN(eps=0.3).fit_predict(extract_features(103))
-print(db)
+vgg16_output = extract_features(103)
+# print(extract_features(103).shape)
+# db = DBSCAN(eps=0.3).fit_predict(extract_features(103))
+# print(db)
+# def create_fit_PCA(data, n_components=None):
+#     p = PCA(n_components=n_components, random_state=728)
+#     p.fit(data)
+#
+#     return p
+#
+# vgg16_pca = create_fit_PCA(vgg16_output)
+#
+# def pca_cumsum_plot(pca):
+#     plt.plot(np.cumsum(pca.explained_variance_ratio_))
+#     plt.xlabel('number of components')
+#     plt.ylabel('cumulative explained variance')
+#     plt.show()
+#
+# # pca_cumsum_plot(vgg16_pca)
+# vgg16_output_pca = vgg16_pca.transform(vgg16_output)
+#
+# db = DBSCAN(eps=0.3).fit(vgg16_output_pca)
+# # db.
+# # k_vgg16_pred_pca = db.predict(vgg16_output_pca)
+#
+# print(db.labels_)
+
+
+
+
+
