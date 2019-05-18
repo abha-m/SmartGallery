@@ -15,7 +15,7 @@ def facechop(image):
 
     faces = cascade.detectMultiScale(miniframe)
 
-    cropped_faces = []
+    cropped_face = []
 
     for f in faces:
         x, y, w, h = [ v for v in f ]
@@ -25,20 +25,29 @@ def facechop(image):
         # face_file_name = "/home/abha/Celeb_faces/train/all_face_detect_cropped/"  + "_" + str(y) + ".jpg"
         # cv2.imwrite(face_file_name, sub_face)
 
-        cropped_faces.append(sub_face)
+        cropped_face.append(sub_face)
 
     # cv2.imshow(image, img)
     # cv2.waitKey(0)
     cv2.destroyAllWindows()
 
 
-    return cropped_faces
+    return cropped_face
+
+def getCroppedImages(folderpath):
+    images = glob.glob(folderpath + "/*")
+    file_path_and_cropped_image = {}
+
+    for imgpath in images[0:]:
+        cropped = facechop(imgpath)
+        if len(cropped) == 1 or len(cropped) == 2:
+            cropped_img = cropped[0]
+            file_path_and_cropped_image[imgpath] = cropped_img
+
+    return file_path_and_cropped_image
+
 
 if __name__ == '__main__':
-    path = "/home/abha/Celeb_faces/train/all"
-    images = glob.glob(path + "/*")
-    for imgpath in images[0:]:
-        imagename = os.path.basename(imgpath)
-        imgname = os.path.splitext(imagename)[0]
-        facechop(imgpath)
-        print(imgname,"exported")
+
+    a = getCroppedImages('/home/abha/Celeb_faces/train/all')
+    print(a['/home/abha/Celeb_faces/train/all/httpgonetworthcomwpcontentuploadsthumbsjpg.jpg'])

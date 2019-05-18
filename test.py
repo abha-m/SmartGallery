@@ -19,12 +19,12 @@ from keras.models import model_from_json
 
 #Download below json
 #facenet model structure: https://github.com/serengil/tensorflow-101/blob/master/model/facenet_model.json
-model_path = '/home/harsh/keras/facenet_model.json'
+model_path = '/home/abha/Facenet/facenet_model.json'
 model = model_from_json(open(model_path, "r").read())
 
 #Download below weights
 #pre-trained weights https://drive.google.com/file/d/1971Xk5RwedbudGgTIrGAL4F7Aifu7id1/view?usp=sharing
-model.load_weights('/home/harsh/keras/facenet_keras_weights.h5')
+model.load_weights('/home/abha/Facenet/facenet_keras_weights.h5')
 # model.summary()
 
 
@@ -34,6 +34,7 @@ folder_path = '/home/harsh/Projects/data/all_face_detect_cropped'
 
 feature_list = []
 file_path_list = []
+
 for filename in os.listdir(folder_path):
     feature_list_of_this_image = []
     file_name = folder_path + '/' + filename
@@ -42,16 +43,16 @@ for filename in os.listdir(folder_path):
     img_data = image.img_to_array(img)
     img_data = np.expand_dims(img_data, axis=0)
     img_data = preprocess_input(img_data)
-    vgg16_feature = model.predict(img_data)
-    vgg16_feature_np = np.array(vgg16_feature)
-    feature_list.append(vgg16_feature_np.flatten())
+    facenet_feature = model.predict(img_data)
+    facenet_feature_np = np.array(facenet_feature)
+    feature_list.append(facenet_feature_np.flatten())
     file_path_list.append(os.path.join(folder_path, filename))
     # vgg16_feature_list.append(vgg16_feature_np.flatten())
-    # feature_list_of_this_image.append(list(vgg16_feature_np.flatten()))
-    # print(feature_list_of_this_image)
-    # file_name_and_feature[file_name] = feature_list_of_this_image
+    feature_list_of_this_image.append(list(facenet_feature_np.flatten()))
+    print(feature_list_of_this_image)
+    file_name_and_feature[file_name] = feature_list_of_this_image
 
-# print(feature_list[0])
+print(feature_list[0])
 
 
 # p = PCA(random_state=728)
