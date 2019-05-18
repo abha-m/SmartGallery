@@ -47,7 +47,7 @@ def getCroppedImages(folderpath):
     return file_path_and_cropped_image
 
 
-if __name__ == '__main__':
-
-    a = getCroppedImages('/home/abha/Celeb_faces/train/all')
-    print(a['/home/abha/Celeb_faces/train/all/httpgonetworthcomwpcontentuploadsthumbsjpg.jpg'])
+# if __name__ == '__main__':
+#
+#     a = getCroppedImages('/home/abha/Celeb_faces/train/all')
+#     print(a['/home/abha/Celeb_faces/train/all/httpgonetworthcomwpcontentuploadsthumbsjpg.jpg'])
